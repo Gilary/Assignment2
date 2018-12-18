@@ -12,6 +12,7 @@ namespace Assignment2.Models
         public string Model { get; set; }
         public User User { get; set; }
         public Company Company { get; set; }
+        public ICollection<Company> Companies { get; set; }
         //public ICollection<User> Users { get; set; }
     }
 }

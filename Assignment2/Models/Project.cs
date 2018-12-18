@@ -10,6 +10,8 @@ namespace Assignment2.Models
     {
         [Key]
         public string Name { get; set; }
+        //public ICollection<User> Users { get; set; }
+        //public ICollection<Skill> Skills { get; set; }
         //public List<Skill> Skills { get; set; }
         //public ICollection<Skill> Skills { get; set; }
     }

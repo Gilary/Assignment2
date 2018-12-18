@@ -11,8 +11,11 @@ namespace Assignment2.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        //public Car Car { get; set; }
+        //public Project Project { get; set; }
+        public ICollection<Car> Cars { get; set; }
+        public ICollection<Project> Projects { get; set; }
         //public List<Car> Cars { get; set; }
         //public List<Project> Projects { get; set; }
-        //public ICollection<Car> Cars { get; set; }
     }
 }

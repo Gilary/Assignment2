@@ -11,5 +11,6 @@ namespace Assignment2.Models
         [Key]
         public string Name { get; set; }
         //public List<Car> Cars { get; set; }
+        //public ICollection<Car> Cars { get; set; }
     }
 }
