@@ -21,12 +21,18 @@ namespace Assignment2.Controllers
             _context = context;
         }
 
-        // GET: api/Users
         [HttpGet]
-        public IEnumerable<User> GetUsers()
+        public List<User> Get()
         {
-            return _context.Users;
+            return _context.Users.ToList();
         }
+
+        //// GET: api/Users
+        //[HttpGet]
+        //public IEnumerable<User> GetUsers()
+        //{
+        //    return _context.Users;
+        //}
 
         // GET: api/Users/5
         [HttpGet("{id}")]
