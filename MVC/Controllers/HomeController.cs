@@ -34,6 +34,19 @@ namespace MVC.Controllers
             return View(user);
         }
 
+        public async Task<IActionResult> Skall()
+        {
+            List<Skill> skill = new List<Skill>();
+            HttpClient client = _api.Initial();
+            HttpResponseMessage resu = await client.GetAsync("api/Skills");
+            if (resu.IsSuccessStatusCode)
+            {
+                var result = resu.Content.ReadAsStringAsync().Result;
+                skill = JsonConvert.DeserializeObject<List<Skill>>(result);
+            }
+            return View(skill);
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
