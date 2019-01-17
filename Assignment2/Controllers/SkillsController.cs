@@ -27,15 +27,16 @@ namespace Assignment2.Controllers
         //{
         //    return _context.Skills;
         //}
+
         [HttpGet]
-        public List<Skill> Get()
+        public List<Skill> GetSkills()
         {
             return _context.Skills.ToList();
         }
 
         // GET: api/Skills/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSkill([FromRoute] string id)
+        public async Task<IActionResult> GetSkill([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -54,14 +55,14 @@ namespace Assignment2.Controllers
 
         // PUT: api/Skills/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSkill([FromRoute] string id, [FromBody] Skill skill)
+        public async Task<IActionResult> PutSkill([FromRoute] int id, [FromBody] Skill skill)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != skill.Name)
+            if (id != skill.Id)
             {
                 return BadRequest();
             }
@@ -99,12 +100,12 @@ namespace Assignment2.Controllers
             _context.Skills.Add(skill);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSkill", new { id = skill.Name }, skill);
+            return CreatedAtAction("GetSkill", new { id = skill.Id }, skill);
         }
 
         // DELETE: api/Skills/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSkill([FromRoute] string id)
+        public async Task<IActionResult> DeleteSkill([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -123,9 +124,9 @@ namespace Assignment2.Controllers
             return Ok(skill);
         }
 
-        private bool SkillExists(string id)
+        private bool SkillExists(int id)
         {
-            return _context.Skills.Any(e => e.Name == id);
+            return _context.Skills.Any(e => e.Id == id);
         }
     }
 }

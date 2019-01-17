@@ -22,7 +22,7 @@ namespace Assignment2.Controllers
         }
 
         [HttpGet]
-        public List<User> Get()
+        public List<User> GetUsers()
         {
             return _context.Users.ToList();
         }
@@ -36,7 +36,7 @@ namespace Assignment2.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser([FromRoute] int id)
+        public async Task<IActionResult> GetUser([FromRoute] string id)
         {
             if (!ModelState.IsValid)
             {
@@ -55,14 +55,14 @@ namespace Assignment2.Controllers
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
+        public async Task<IActionResult> PutUser([FromRoute] string id, [FromBody] User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != user.Id)
+            if (id != user.UserName)
             {
                 return BadRequest();
             }
@@ -100,12 +100,12 @@ namespace Assignment2.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetUser", new { id = user.UserName }, user);
         }
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser([FromRoute] int id)
+        public async Task<IActionResult> DeleteUser([FromRoute] string id)
         {
             if (!ModelState.IsValid)
             {
@@ -124,9 +124,9 @@ namespace Assignment2.Controllers
             return Ok(user);
         }
 
-        private bool UserExists(int id)
+        private bool UserExists(string id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.UserName == id);
         }
     }
 }

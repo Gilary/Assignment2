@@ -30,7 +30,7 @@ namespace Assignment2.Controllers
 
         // GET: api/Projects/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProject([FromRoute] string id)
+        public async Task<IActionResult> GetProject([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -49,14 +49,14 @@ namespace Assignment2.Controllers
 
         // PUT: api/Projects/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProject([FromRoute] string id, [FromBody] Project project)
+        public async Task<IActionResult> PutProject([FromRoute] int id, [FromBody] Project project)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != project.Name)
+            if (id != project.Id)
             {
                 return BadRequest();
             }
@@ -94,12 +94,12 @@ namespace Assignment2.Controllers
             _context.Projects.Add(project);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProject", new { id = project.Name }, project);
+            return CreatedAtAction("GetProject", new { id = project.Id }, project);
         }
 
         // DELETE: api/Projects/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProject([FromRoute] string id)
+        public async Task<IActionResult> DeleteProject([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -118,9 +118,9 @@ namespace Assignment2.Controllers
             return Ok(project);
         }
 
-        private bool ProjectExists(string id)
+        private bool ProjectExists(int id)
         {
-            return _context.Projects.Any(e => e.Name == id);
+            return _context.Projects.Any(e => e.Id == id);
         }
     }
 }

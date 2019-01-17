@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assignment2.Data;
 using Assignment2.Models;
-using System.Net.Http;
 using MVC.Helper;
+using System.Net.Http;
 using Newtonsoft.Json;
 
 namespace MVC.Controllers
@@ -39,7 +39,7 @@ namespace MVC.Controllers
         }
 
         // GET: Skills/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -47,7 +47,7 @@ namespace MVC.Controllers
             }
 
             var skill = await _context.Skills
-                .FirstOrDefaultAsync(m => m.Name == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (skill == null)
             {
                 return NotFound();
@@ -67,7 +67,7 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name")] Skill skill)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,CompanyId")] Skill skill)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace MVC.Controllers
         }
 
         // GET: Skills/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -99,9 +99,9 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name")] Skill skill)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CompanyId")] Skill skill)
         {
-            if (id != skill.Name)
+            if (id != skill.Id)
             {
                 return NotFound();
             }
@@ -115,7 +115,7 @@ namespace MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SkillExists(skill.Name))
+                    if (!SkillExists(skill.Id))
                     {
                         return NotFound();
                     }
@@ -130,7 +130,7 @@ namespace MVC.Controllers
         }
 
         // GET: Skills/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -138,7 +138,7 @@ namespace MVC.Controllers
             }
 
             var skill = await _context.Skills
-                .FirstOrDefaultAsync(m => m.Name == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (skill == null)
             {
                 return NotFound();
@@ -150,7 +150,7 @@ namespace MVC.Controllers
         // POST: Skills/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var skill = await _context.Skills.FindAsync(id);
             _context.Skills.Remove(skill);
@@ -158,9 +158,9 @@ namespace MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SkillExists(string id)
+        private bool SkillExists(int id)
         {
-            return _context.Skills.Any(e => e.Name == id);
+            return _context.Skills.Any(e => e.Id == id);
         }
     }
 }

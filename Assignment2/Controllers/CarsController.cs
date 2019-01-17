@@ -30,7 +30,7 @@ namespace Assignment2.Controllers
 
         // GET: api/Cars/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCar([FromRoute] string id)
+        public async Task<IActionResult> GetCar([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -49,14 +49,14 @@ namespace Assignment2.Controllers
 
         // PUT: api/Cars/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCar([FromRoute] string id, [FromBody] Car car)
+        public async Task<IActionResult> PutCar([FromRoute] int id, [FromBody] Car car)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != car.Model)
+            if (id != car.Id)
             {
                 return BadRequest();
             }
@@ -94,12 +94,12 @@ namespace Assignment2.Controllers
             _context.Cars.Add(car);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCar", new { id = car.Model }, car);
+            return CreatedAtAction("GetCar", new { id = car.Id }, car);
         }
 
         // DELETE: api/Cars/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCar([FromRoute] string id)
+        public async Task<IActionResult> DeleteCar([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -118,9 +118,9 @@ namespace Assignment2.Controllers
             return Ok(car);
         }
 
-        private bool CarExists(string id)
+        private bool CarExists(int id)
         {
-            return _context.Cars.Any(e => e.Model == id);
+            return _context.Cars.Any(e => e.Id == id);
         }
     }
 }
