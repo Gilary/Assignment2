@@ -22,5 +22,7 @@ namespace Assignment2.Models
         public double Mileage { get; set; }
         public int CompanyId { get; set; }
         public string UserId { get; set; }
+        public User User { get; set; }
+        public Company Company { get; set; }
     }
 }

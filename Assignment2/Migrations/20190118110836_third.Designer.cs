@@ -4,14 +4,16 @@ using Assignment2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Assignment2.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20190118110836_third")]
+    partial class third
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,25 +125,6 @@ namespace Assignment2.Migrations
                     b.ToTable("Skills");
                 });
 
-            modelBuilder.Entity("Assignment2.Models.SkillProject", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ProjectId");
-
-                    b.Property<int>("SkillId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.HasIndex("SkillId");
-
-                    b.ToTable("SkillProject");
-                });
-
             modelBuilder.Entity("Assignment2.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -193,19 +176,6 @@ namespace Assignment2.Migrations
                     b.HasOne("Assignment2.Models.Project")
                         .WithMany("Skills")
                         .HasForeignKey("ProjectId");
-                });
-
-            modelBuilder.Entity("Assignment2.Models.SkillProject", b =>
-                {
-                    b.HasOne("Assignment2.Models.Project", "Project")
-                        .WithMany("SkillProjects")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Assignment2.Models.Skill", "Skill")
-                        .WithMany("SkillProject")
-                        .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

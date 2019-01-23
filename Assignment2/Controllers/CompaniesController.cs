@@ -28,6 +28,26 @@ namespace Assignment2.Controllers
             return _context.Companies;
         }
 
+        // GET: api/Companies
+        [HttpGet("{CompanyId}")]
+        public IEnumerable<Car> GetCarsByCompany(int CompanyId)
+        {
+            return _context.Cars.Where(x => CompanyId == x.CompanyId).ToList();
+        }
+        //// GET: api/Companies
+        //[HttpGet]
+        //public IQueryable<Car> GetCompanies()
+        //{
+        //    return _context.Cars
+        //        .ToList()
+        //        .Select(p => new Car
+        //        {
+        //            CompanyId = p.CompanyId,
+        //            UserId = p.UserId
+        //        })
+        //        .AsQueryable();
+        //}
+
         // GET: api/Companies/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompany([FromRoute] string id)

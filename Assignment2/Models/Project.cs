@@ -17,8 +17,9 @@ namespace Assignment2.Models
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public int UserId { get; set; }
+        public User User { get; set; }
         public List<Skill> Skills { get; set; }
-        //public ICollection<User> Users { get; set; }
+        public ICollection<SkillProject> SkillProjects { get; set; }
         //public ICollection<Skill> Skills { get; set; }
         //public List<Skill> Skills { get; set; }
         //public ICollection<Skill> Skills { get; set; }

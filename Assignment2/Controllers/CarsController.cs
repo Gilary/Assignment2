@@ -25,8 +25,18 @@ namespace Assignment2.Controllers
         [HttpGet]
         public IEnumerable<Car> GetCars()
         {
-            return _context.Cars;
+            return _context.Cars.ToList();
         }
+
+        //[HttpGet]
+        //public List<Car> GetCars()
+        //{
+        //    //List<Car> cars = new List<Car>();
+
+        //    //cars.Add(new Car { Id = 3, Make = "brown", Model = "pretty", Description= "testytesty", Range=123, Mileage=32, CompanyId=1, UserId="1"});
+        //    //cars.Add(new Car { Id = 4, Make = "yellow", Model = "pretty", Description = "testytesty", Range = 123, Mileage = 32, CompanyId = 1, UserId = "1" });
+        //    return _context.Cars.ToList();
+        //}
 
         // GET: api/Cars/5
         [HttpGet("{id}")]

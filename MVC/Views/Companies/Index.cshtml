@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Assignment2.Models.Skill>
+﻿@model IEnumerable<Assignment2.Models.Company>
 
 @{
     ViewData["Title"] = "Index";
@@ -19,7 +19,16 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Company)
+                @Html.DisplayNameFor(model => model.Mission)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Strategy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vision)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Website)
             </th>
             <th></th>
         </tr>
@@ -34,7 +43,16 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Company.Id)
+                @Html.DisplayFor(modelItem => item.Mission)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Strategy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vision)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Website)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

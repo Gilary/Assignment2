@@ -21,18 +21,18 @@ namespace Assignment2.Controllers
             _context = context;
         }
 
-        //// GET: api/Skills
-        //[HttpGet]
-        //public IEnumerable<Skill> GetSkills()
-        //{
-        //    return _context.Skills;
-        //}
-
+        // GET: api/Skills
         [HttpGet]
-        public List<Skill> GetSkills()
+        public IEnumerable<Skill> GetSkills()
         {
             return _context.Skills.ToList();
         }
+
+        //[HttpGet]
+        //public List<Skill> GetSkills()
+        //{
+        //    return _context.Skills.ToList();
+        //}
 
         // GET: api/Skills/5
         [HttpGet("{id}")]
