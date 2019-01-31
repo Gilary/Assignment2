@@ -9,7 +9,7 @@ namespace Assignment2.Models
     public class Skill
     {
         [Key]
-        public int Id { get; set; }
+        public int SkillId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int CompanyId { get; set; }

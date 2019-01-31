@@ -7,9 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assignment2.Data;
 using Assignment2.Models;
-using MVC.Helper;
-using System.Net.Http;
-using Newtonsoft.Json;
 
 namespace MVC.Controllers
 {
@@ -22,24 +19,14 @@ namespace MVC.Controllers
             _context = context;
         }
 
-        API _api = new API();
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            List<User> user = new List<User>();
-            HttpClient client = _api.Initial();
-            HttpResponseMessage resu = await client.GetAsync("api/Users");
-            if (resu.IsSuccessStatusCode)
-            {
-                var result = resu.Content.ReadAsStringAsync().Result;
-                user = JsonConvert.DeserializeObject<List<User>>(result);
-            }
-            //return View(user);
             return View(await _context.Users.ToListAsync());
         }
 
         // GET: Users/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -47,7 +34,7 @@ namespace MVC.Controllers
             }
 
             var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.UserName == id);
             if (user == null)
             {
                 return NotFound();
@@ -67,7 +54,7 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserName,Email,PhoneNumber,Age,lastActivityDate")] User user)
+        public async Task<IActionResult> Create([Bind("UserName,Email,PhoneNumber,Age,FirstName,LastName,lastActivityDate")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +66,7 @@ namespace MVC.Controllers
         }
 
         // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -99,9 +86,9 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,Email,PhoneNumber,Age,lastActivityDate")] User user)
+        public async Task<IActionResult> Edit(string id, [Bind("UserName,Email,PhoneNumber,Age,FirstName,LastName,lastActivityDate")] User user)
         {
-            if (id != user.Id)
+            if (id != user.UserName)
             {
                 return NotFound();
             }
@@ -115,7 +102,7 @@ namespace MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!UserExists(user.UserName))
                     {
                         return NotFound();
                     }
@@ -130,7 +117,7 @@ namespace MVC.Controllers
         }
 
         // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -138,7 +125,7 @@ namespace MVC.Controllers
             }
 
             var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.UserName == id);
             if (user == null)
             {
                 return NotFound();
@@ -150,7 +137,7 @@ namespace MVC.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var user = await _context.Users.FindAsync(id);
             _context.Users.Remove(user);
@@ -158,9 +145,9 @@ namespace MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool UserExists(string id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.UserName == id);
         }
     }
 }

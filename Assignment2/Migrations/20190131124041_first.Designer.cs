@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assignment2.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20190123134118_first")]
+    [Migration("20190131124041_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace Assignment2.Migrations
 
             modelBuilder.Entity("Assignment2.Models.Car", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CarId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -39,22 +39,20 @@ namespace Assignment2.Migrations
 
                     b.Property<double>("Range");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserName");
 
-                    b.Property<int?>("UserId1");
-
-                    b.HasKey("Id");
+                    b.HasKey("CarId");
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserName");
 
                     b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("Assignment2.Models.Company", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CompanyId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -70,14 +68,14 @@ namespace Assignment2.Migrations
 
                     b.Property<string>("Website");
 
-                    b.HasKey("Id");
+                    b.HasKey("CompanyId");
 
                     b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("Assignment2.Models.Project", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProjectId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -93,18 +91,18 @@ namespace Assignment2.Migrations
 
                     b.Property<string>("StartDate");
 
-                    b.Property<int>("UserId");
+                    b.Property<string>("UserName");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProjectId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserName");
 
                     b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("Assignment2.Models.Skill", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SkillId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -116,7 +114,7 @@ namespace Assignment2.Migrations
 
                     b.Property<int?>("ProjectId");
 
-                    b.HasKey("Id");
+                    b.HasKey("SkillId");
 
                     b.HasIndex("CompanyId");
 
@@ -127,7 +125,7 @@ namespace Assignment2.Migrations
 
             modelBuilder.Entity("Assignment2.Models.SkillProject", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SkillProjectId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -135,7 +133,7 @@ namespace Assignment2.Migrations
 
                     b.Property<int>("SkillId");
 
-                    b.HasKey("Id");
+                    b.HasKey("SkillProjectId");
 
                     b.HasIndex("ProjectId");
 
@@ -146,21 +144,22 @@ namespace Assignment2.Migrations
 
             modelBuilder.Entity("Assignment2.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("UserName")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("Age");
 
                     b.Property<string>("Email");
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("FirstName");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("lastActivityDate");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserName");
 
                     b.ToTable("Users");
                 });
@@ -174,15 +173,14 @@ namespace Assignment2.Migrations
 
                     b.HasOne("Assignment2.Models.User", "User")
                         .WithMany("Cars")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserName");
                 });
 
             modelBuilder.Entity("Assignment2.Models.Project", b =>
                 {
                     b.HasOne("Assignment2.Models.User", "User")
                         .WithMany("Projects")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserName");
                 });
 
             modelBuilder.Entity("Assignment2.Models.Skill", b =>

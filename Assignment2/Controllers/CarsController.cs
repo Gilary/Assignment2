@@ -25,18 +25,8 @@ namespace Assignment2.Controllers
         [HttpGet]
         public IEnumerable<Car> GetCars()
         {
-            return _context.Cars.ToList();
+            return _context.Cars;
         }
-
-        //[HttpGet]
-        //public List<Car> GetCars()
-        //{
-        //    //List<Car> cars = new List<Car>();
-
-        //    //cars.Add(new Car { Id = 3, Make = "brown", Model = "pretty", Description= "testytesty", Range=123, Mileage=32, CompanyId=1, UserId="1"});
-        //    //cars.Add(new Car { Id = 4, Make = "yellow", Model = "pretty", Description = "testytesty", Range = 123, Mileage = 32, CompanyId = 1, UserId = "1" });
-        //    return _context.Cars.ToList();
-        //}
 
         // GET: api/Cars/5
         [HttpGet("{id}")]
@@ -66,7 +56,7 @@ namespace Assignment2.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != car.Id)
+            if (id != car.CarId)
             {
                 return BadRequest();
             }
@@ -104,7 +94,7 @@ namespace Assignment2.Controllers
             _context.Cars.Add(car);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCar", new { id = car.Id }, car);
+            return CreatedAtAction("GetCar", new { id = car.CarId }, car);
         }
 
         // DELETE: api/Cars/5
@@ -130,7 +120,7 @@ namespace Assignment2.Controllers
 
         private bool CarExists(int id)
         {
-            return _context.Cars.Any(e => e.Id == id);
+            return _context.Cars.Any(e => e.CarId == id);
         }
     }
 }

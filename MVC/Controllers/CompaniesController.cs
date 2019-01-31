@@ -34,7 +34,7 @@ namespace MVC.Controllers
             }
 
             var company = await _context.Companies
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CompanyId == id);
             if (company == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Mission,Strategy,Vision,Website")] Company company)
+        public async Task<IActionResult> Create([Bind("CompanyId,Name,Description,Mission,Strategy,Vision,Website")] Company company)
         {
             if (ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Mission,Strategy,Vision,Website")] Company company)
+        public async Task<IActionResult> Edit(int id, [Bind("CompanyId,Name,Description,Mission,Strategy,Vision,Website")] Company company)
         {
-            if (id != company.Id)
+            if (id != company.CompanyId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CompanyExists(company.Id))
+                    if (!CompanyExists(company.CompanyId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace MVC.Controllers
             }
 
             var company = await _context.Companies
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CompanyId == id);
             if (company == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace MVC.Controllers
 
         private bool CompanyExists(int id)
         {
-            return _context.Companies.Any(e => e.Id == id);
+            return _context.Companies.Any(e => e.CompanyId == id);
         }
     }
 }

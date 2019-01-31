@@ -56,7 +56,7 @@ namespace Assignment2.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != project.Id)
+            if (id != project.ProjectId)
             {
                 return BadRequest();
             }
@@ -94,7 +94,7 @@ namespace Assignment2.Controllers
             _context.Projects.Add(project);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProject", new { id = project.Id }, project);
+            return CreatedAtAction("GetProject", new { id = project.ProjectId }, project);
         }
 
         // DELETE: api/Projects/5
@@ -120,7 +120,7 @@ namespace Assignment2.Controllers
 
         private bool ProjectExists(int id)
         {
-            return _context.Projects.Any(e => e.Id == id);
+            return _context.Projects.Any(e => e.ProjectId == id);
         }
     }
 }

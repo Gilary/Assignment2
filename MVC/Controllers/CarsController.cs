@@ -7,9 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assignment2.Data;
 using Assignment2.Models;
-using System.Net.Http;
-using MVC.Helper;
-using Newtonsoft.Json;
 
 namespace MVC.Controllers
 {
@@ -22,22 +19,11 @@ namespace MVC.Controllers
             _context = context;
         }
 
-        API _api = new API();
         // GET: Cars
         public async Task<IActionResult> Index()
         {
-            //var context = _context.Cars.Include(c => c.Company);
-            //return View(await context.ToListAsync());
-            List<Car> car = new List<Car>();
-            HttpClient client = _api.Initial();
-            HttpResponseMessage resu = await client.GetAsync("api/Cars");
-            if (resu.IsSuccessStatusCode)
-            {
-                var result = resu.Content.ReadAsStringAsync().Result;
-                car = JsonConvert.DeserializeObject<List<Car>>(result);
-            }
-            //return View(car);
-            return View(await _context.Cars.Include(c => c.Company).ToListAsync());
+            var context = _context.Cars.Include(c => c.Company).Include(c => c.User);
+            return View(await context.ToListAsync());
         }
 
         // GET: Cars/Details/5
@@ -50,7 +36,8 @@ namespace MVC.Controllers
 
             var car = await _context.Cars
                 .Include(c => c.Company)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(m => m.CarId == id);
             if (car == null)
             {
                 return NotFound();
@@ -62,7 +49,8 @@ namespace MVC.Controllers
         // GET: Cars/Create
         public IActionResult Create()
         {
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id");
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyId");
+            ViewData["UserName"] = new SelectList(_context.Users, "UserName", "UserName");
             return View();
         }
 
@@ -71,7 +59,7 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Make,Model,Description,Range,Mileage,CompanyId,UserId")] Car car)
+        public async Task<IActionResult> Create([Bind("CarId,Make,Model,Description,Range,Mileage,UserName,CompanyId")] Car car)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +67,8 @@ namespace MVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", car.CompanyId);
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyId", car.CompanyId);
+            ViewData["UserName"] = new SelectList(_context.Users, "UserName", "UserName", car.UserName);
             return View(car);
         }
 
@@ -96,7 +85,8 @@ namespace MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", car.CompanyId);
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyId", car.CompanyId);
+            ViewData["UserName"] = new SelectList(_context.Users, "UserName", "UserName", car.UserName);
             return View(car);
         }
 
@@ -105,9 +95,9 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Make,Model,Description,Range,Mileage,CompanyId,UserId")] Car car)
+        public async Task<IActionResult> Edit(int id, [Bind("CarId,Make,Model,Description,Range,Mileage,UserName,CompanyId")] Car car)
         {
-            if (id != car.Id)
+            if (id != car.CarId)
             {
                 return NotFound();
             }
@@ -121,7 +111,7 @@ namespace MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CarExists(car.Id))
+                    if (!CarExists(car.CarId))
                     {
                         return NotFound();
                     }
@@ -132,7 +122,8 @@ namespace MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", car.CompanyId);
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyId", car.CompanyId);
+            ViewData["UserName"] = new SelectList(_context.Users, "UserName", "UserName", car.UserName);
             return View(car);
         }
 
@@ -146,7 +137,8 @@ namespace MVC.Controllers
 
             var car = await _context.Cars
                 .Include(c => c.Company)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(m => m.CarId == id);
             if (car == null)
             {
                 return NotFound();
@@ -168,7 +160,7 @@ namespace MVC.Controllers
 
         private bool CarExists(int id)
         {
-            return _context.Cars.Any(e => e.Id == id);
+            return _context.Cars.Any(e => e.CarId == id);
         }
     }
 }

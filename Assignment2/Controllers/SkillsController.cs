@@ -25,14 +25,8 @@ namespace Assignment2.Controllers
         [HttpGet]
         public IEnumerable<Skill> GetSkills()
         {
-            return _context.Skills.ToList();
+            return _context.Skills;
         }
-
-        //[HttpGet]
-        //public List<Skill> GetSkills()
-        //{
-        //    return _context.Skills.ToList();
-        //}
 
         // GET: api/Skills/5
         [HttpGet("{id}")]
@@ -62,7 +56,7 @@ namespace Assignment2.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != skill.Id)
+            if (id != skill.SkillId)
             {
                 return BadRequest();
             }
@@ -100,7 +94,7 @@ namespace Assignment2.Controllers
             _context.Skills.Add(skill);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSkill", new { id = skill.Id }, skill);
+            return CreatedAtAction("GetSkill", new { id = skill.SkillId }, skill);
         }
 
         // DELETE: api/Skills/5
@@ -126,7 +120,7 @@ namespace Assignment2.Controllers
 
         private bool SkillExists(int id)
         {
-            return _context.Skills.Any(e => e.Id == id);
+            return _context.Skills.Any(e => e.SkillId == id);
         }
     }
 }

@@ -29,45 +29,45 @@ namespace MVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Usar()
-        {
-            List<User> user = new List<User>();
-            HttpClient client = _api.Initial();
-            HttpResponseMessage resu = await client.GetAsync("api/Users");
-            if (resu.IsSuccessStatusCode)
-            {
-                var result = resu.Content.ReadAsStringAsync().Result;
-                user = JsonConvert.DeserializeObject<List<User>>(result);
-            }
-            return View(user);
-        }
+        //public async Task<IActionResult> Usar()
+        //{
+        //    List<User> user = new List<User>();
+        //    HttpClient client = _api.Initial();
+        //    HttpResponseMessage resu = await client.GetAsync("api/Users");
+        //    if (resu.IsSuccessStatusCode)
+        //    {
+        //        var result = resu.Content.ReadAsStringAsync().Result;
+        //        user = JsonConvert.DeserializeObject<List<User>>(result);
+        //    }
+        //    return View(user);
+        //}
 
-        public async Task<IActionResult> Skall()
-        {
-            List<Skill> skill = new List<Skill>();
-            HttpClient client = _api.Initial();
-            HttpResponseMessage resu = await client.GetAsync("api/Skills");
-            if (resu.IsSuccessStatusCode)
-            {
-                var result = resu.Content.ReadAsStringAsync().Result;
-                skill = JsonConvert.DeserializeObject<List<Skill>>(result);
-            }
-            return View(skill);
-        }
+        //public async Task<IActionResult> Skall()
+        //{
+        //    List<Skill> skill = new List<Skill>();
+        //    HttpClient client = _api.Initial();
+        //    HttpResponseMessage resu = await client.GetAsync("api/Skills");
+        //    if (resu.IsSuccessStatusCode)
+        //    {
+        //        var result = resu.Content.ReadAsStringAsync().Result;
+        //        skill = JsonConvert.DeserializeObject<List<Skill>>(result);
+        //    }
+        //    return View(skill);
+        //}
 
-        public async Task<IActionResult> Cors()
-        {
-            List<Car> car = new List<Car>();
-            HttpClient client = _api.Initial();
-            HttpResponseMessage resu = await client.GetAsync("api/Cars");
-            if (resu.IsSuccessStatusCode)
-            {
-                var result = resu.Content.ReadAsStringAsync().Result;
-                car= JsonConvert.DeserializeObject<List<Car>>(result);
-            }
-            return View(car);
-            //return View(await _context.Cars.ToListAsync());
-        }
+        //public async Task<IActionResult> Cors()
+        //{
+        //    List<Car> car = new List<Car>();
+        //    HttpClient client = _api.Initial();
+        //    HttpResponseMessage resu = await client.GetAsync("api/Cars");
+        //    if (resu.IsSuccessStatusCode)
+        //    {
+        //        var result = resu.Content.ReadAsStringAsync().Result;
+        //        car= JsonConvert.DeserializeObject<List<Car>>(result);
+        //    }
+        //    return View(car);
+        //    //return View(await _context.Cars.ToListAsync());
+        //}
 
         public IActionResult About()
         {

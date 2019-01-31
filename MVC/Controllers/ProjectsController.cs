@@ -36,7 +36,7 @@ namespace MVC.Controllers
 
             var project = await _context.Projects
                 .Include(p => p.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ProjectId == id);
             if (project == null)
             {
                 return NotFound();
@@ -48,7 +48,7 @@ namespace MVC.Controllers
         // GET: Projects/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["UserName"] = new SelectList(_context.Users, "UserName", "UserName");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProjectType,Name,Description,ImageUrl,StartDate,EndDate,UserId")] Project project)
+        public async Task<IActionResult> Create([Bind("ProjectId,ProjectType,Name,Description,ImageUrl,StartDate,EndDate,UserName")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace MVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", project.UserId);
+            ViewData["UserName"] = new SelectList(_context.Users, "UserName", "UserName", project.UserName);
             return View(project);
         }
 
@@ -82,7 +82,7 @@ namespace MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", project.UserId);
+            ViewData["UserName"] = new SelectList(_context.Users, "UserName", "UserName", project.UserName);
             return View(project);
         }
 
@@ -91,9 +91,9 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectType,Name,Description,ImageUrl,StartDate,EndDate,UserId")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("ProjectId,ProjectType,Name,Description,ImageUrl,StartDate,EndDate,UserName")] Project project)
         {
-            if (id != project.Id)
+            if (id != project.ProjectId)
             {
                 return NotFound();
             }
@@ -107,7 +107,7 @@ namespace MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjectExists(project.Id))
+                    if (!ProjectExists(project.ProjectId))
                     {
                         return NotFound();
                     }
@@ -118,7 +118,7 @@ namespace MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", project.UserId);
+            ViewData["UserName"] = new SelectList(_context.Users, "UserName", "UserName", project.UserName);
             return View(project);
         }
 
@@ -132,7 +132,7 @@ namespace MVC.Controllers
 
             var project = await _context.Projects
                 .Include(p => p.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ProjectId == id);
             if (project == null)
             {
                 return NotFound();
@@ -154,7 +154,7 @@ namespace MVC.Controllers
 
         private bool ProjectExists(int id)
         {
-            return _context.Projects.Any(e => e.Id == id);
+            return _context.Projects.Any(e => e.ProjectId == id);
         }
     }
 }

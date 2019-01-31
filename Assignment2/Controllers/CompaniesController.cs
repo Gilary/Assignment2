@@ -28,29 +28,16 @@ namespace Assignment2.Controllers
             return _context.Companies;
         }
 
-        // GET: api/Companies
+        // GET: api/Companies/{CompanyId}
         [HttpGet("{CompanyId}")]
-        public IEnumerable<Car> GetCarsByCompany(int CompanyId)
+        public IEnumerable<Car> GetCarsByCompanyId(int CompanyId)
         {
             return _context.Cars.Where(x => CompanyId == x.CompanyId).ToList();
         }
-        //// GET: api/Companies
-        //[HttpGet]
-        //public IQueryable<Car> GetCompanies()
-        //{
-        //    return _context.Cars
-        //        .ToList()
-        //        .Select(p => new Car
-        //        {
-        //            CompanyId = p.CompanyId,
-        //            UserId = p.UserId
-        //        })
-        //        .AsQueryable();
-        //}
 
         // GET: api/Companies/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCompany([FromRoute] string id)
+        public async Task<IActionResult> GetCompany([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -69,14 +56,14 @@ namespace Assignment2.Controllers
 
         // PUT: api/Companies/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompany([FromRoute] string id, [FromBody] Company company)
+        public async Task<IActionResult> PutCompany([FromRoute] int id, [FromBody] Company company)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != company.Name)
+            if (id != company.CompanyId)
             {
                 return BadRequest();
             }
@@ -114,12 +101,12 @@ namespace Assignment2.Controllers
             _context.Companies.Add(company);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCompany", new { id = company.Name }, company);
+            return CreatedAtAction("GetCompany", new { id = company.CompanyId }, company);
         }
 
         // DELETE: api/Companies/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCompany([FromRoute] string id)
+        public async Task<IActionResult> DeleteCompany([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -138,9 +125,9 @@ namespace Assignment2.Controllers
             return Ok(company);
         }
 
-        private bool CompanyExists(string id)
+        private bool CompanyExists(int id)
         {
-            return _context.Companies.Any(e => e.Name == id);
+            return _context.Companies.Any(e => e.CompanyId == id);
         }
     }
 }

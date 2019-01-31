@@ -42,21 +42,21 @@
             @Html.DisplayFor(model => model.Mileage)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.UserId)
+            @Html.DisplayNameFor(model => model.User)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.UserId)
+            @Html.DisplayFor(model => model.User.UserName)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Company)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Company.Id)
+            @Html.DisplayFor(model => model.Company.CompanyId)
         </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CarId" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>

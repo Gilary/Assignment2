@@ -7,9 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assignment2.Data;
 using Assignment2.Models;
-using MVC.Helper;
-using System.Net.Http;
-using Newtonsoft.Json;
 
 namespace MVC.Controllers
 {
@@ -22,29 +19,12 @@ namespace MVC.Controllers
             _context = context;
         }
 
-        //// GET: Skills
-        //public async Task<IActionResult> Index()
-        //{
-        //    var context = _context.Skills.Include(s => s.Company);
-        //    return View(await context.ToListAsync());
-        //}
-
-        API _api = new API();
         // GET: Skills
         public async Task<IActionResult> Index()
         {
-            List<Skill> skill = new List<Skill>();
-            HttpClient client = _api.Initial();
-            HttpResponseMessage resu = await client.GetAsync("api/Skills");
-            if (resu.IsSuccessStatusCode)
-            {
-                var result = resu.Content.ReadAsStringAsync().Result;
-                skill = JsonConvert.DeserializeObject<List<Skill>>(result);
-            }
-            //return View(skill);
-            return View(await _context.Skills.Include(s => s.Company).ToListAsync());
+            var context = _context.Skills.Include(s => s.Company);
+            return View(await context.ToListAsync());
         }
-
 
         // GET: Skills/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -56,7 +36,7 @@ namespace MVC.Controllers
 
             var skill = await _context.Skills
                 .Include(s => s.Company)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.SkillId == id);
             if (skill == null)
             {
                 return NotFound();
@@ -68,7 +48,7 @@ namespace MVC.Controllers
         // GET: Skills/Create
         public IActionResult Create()
         {
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id");
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyId");
             return View();
         }
 
@@ -77,7 +57,7 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,CompanyId")] Skill skill)
+        public async Task<IActionResult> Create([Bind("SkillId,Name,Description,CompanyId")] Skill skill)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +65,7 @@ namespace MVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", skill.CompanyId);
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyId", skill.CompanyId);
             return View(skill);
         }
 
@@ -102,7 +82,7 @@ namespace MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", skill.CompanyId);
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyId", skill.CompanyId);
             return View(skill);
         }
 
@@ -111,9 +91,9 @@ namespace MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CompanyId")] Skill skill)
+        public async Task<IActionResult> Edit(int id, [Bind("SkillId,Name,Description,CompanyId")] Skill skill)
         {
-            if (id != skill.Id)
+            if (id != skill.SkillId)
             {
                 return NotFound();
             }
@@ -127,7 +107,7 @@ namespace MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SkillExists(skill.Id))
+                    if (!SkillExists(skill.SkillId))
                     {
                         return NotFound();
                     }
@@ -138,7 +118,7 @@ namespace MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", skill.CompanyId);
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyId", skill.CompanyId);
             return View(skill);
         }
 
@@ -152,7 +132,7 @@ namespace MVC.Controllers
 
             var skill = await _context.Skills
                 .Include(s => s.Company)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.SkillId == id);
             if (skill == null)
             {
                 return NotFound();
@@ -174,7 +154,7 @@ namespace MVC.Controllers
 
         private bool SkillExists(int id)
         {
-            return _context.Skills.Any(e => e.Id == id);
+            return _context.Skills.Any(e => e.SkillId == id);
         }
     }
 }
