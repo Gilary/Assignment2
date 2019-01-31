@@ -114,11 +114,43 @@ namespace Assignment2.Migrations
                 {
                     table.PrimaryKey("PK_Skills", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Skills_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Skills_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SkillProject",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ProjectId = table.Column<int>(nullable: false),
+                    SkillId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SkillProject", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SkillProject_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SkillProject_Skills_SkillId",
+                        column: x => x.SkillId,
+                        principalTable: "Skills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -137,6 +169,21 @@ namespace Assignment2.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SkillProject_ProjectId",
+                table: "SkillProject",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SkillProject_SkillId",
+                table: "SkillProject",
+                column: "SkillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Skills_CompanyId",
+                table: "Skills",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Skills_ProjectId",
                 table: "Skills",
                 column: "ProjectId");
@@ -146,6 +193,9 @@ namespace Assignment2.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Cars");
+
+            migrationBuilder.DropTable(
+                name: "SkillProject");
 
             migrationBuilder.DropTable(
                 name: "Skills");
